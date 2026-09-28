@@ -2,134 +2,198 @@
 
 A single-page selector over an extract of the Horn Stechdrehen catalogue
 (System 117, p. 750–785). It answers one question four ways: which insert cuts
-the width I need, and which holders will take it.
+the width I need, and which holders will take it. An insert and a holder fit if
+and only if their seat letters match — same letter, same coupling code, it fits.
 
-Built on the Livetools Design System. The rules live in the
-`livetools-design-system` skill pinned in `.claude/skills/` in this repo.
-Consult it before writing or changing any markup or CSS.
+Built from the `livetools-app-vite` template: Vite 8, React 19, TypeScript and
+React Router 7, every screen made from the parts in `@livetools/ui` (pinned to
+1.0.0) and from nothing else. The design system's rules are also pinned as a
+skill in `.claude/skills/livetools-design-system/`; consult it before writing
+or changing any screen or CSS.
 
-The non-negotiables: never write a raw colour, px font size or shadow, use
-`--lt-*` tokens; blue acts, red is identity and danger only; every status is
-icon + colour + word; controls sit on `.lt-panel`.
+The person you build this for does not read code. Read "Talking to the person"
+before your first message to them.
 
-## Running it
+## How this app is shaped
 
-`components/lt-elements.js` is a module, so the page needs a server — opened as
-a `file://` URL the browser blocks the module fetch and the tabs never upgrade.
+One screen, four lookup modes as tabs, not four pages. The whole tool is
+`src/screens/Finder.tsx`: a shared machine-geometry choice and the seat-match
+rule sit above a `Tabs` part whose four panels are the four lookups —
 
-```
-python -m http.server 8117      # then http://localhost:8117/index.html
-```
+- **Find by width**: a width to cut and an optional bore, then the inserts that
+  make it and, under each, the holders that share its seat.
+- **Browse by seat**: one of the seventeen seats, then every insert and holder
+  on it with a coverage summary.
+- **Look up an insert** / **a holder**: a search box that narrows a picker,
+  then a detail card and everything on the other side of the coupling.
 
-## Before every commit
+The catalogue is `src/data/horn.ts` (131 inserts, 97 holders, 25 widths). The
+four lookup algorithms and the formatters are pure functions in
+`src/lib/finder.ts`; the seat box is `src/lib/Seat.tsx`. Every lookup lives in
+memory — there is nothing to save, no backend and no accounts.
 
-```
-python conformance.py .         # must pass; currently 0 findings
-python lt_dom_audit.py index.html
-```
+To change a lookup, edit its panel in `Finder.tsx` and the function it calls in
+`finder.ts`. To add a fifth lookup, add a tab to the `Tabs` items and a function
+beside the others. The files you edit are `src/screens/*.tsx`, `src/data/*.ts`,
+`src/lib/*.ts`, `src/App.tsx`, `src/app.css` and `src/app-tokens.css`.
 
-Fix the cause of a finding; never add a file to `conformance.py`'s exempt list
-to make it pass. One finding here was a false positive from writing a literal
-`<select>` tag inside a prose comment — the fix was to write `.lt-select`
-instead, not to exempt the file.
+## The catalogue data is a reviewed transcription
 
-`lt_dom_audit.py` reads RENDERED html, not source: it catches a field that
-paints an error chip without marking its control `aria-invalid`, which no
-per-file check can see. This app has no validation and so no error chips, which
-means the audit passes trivially today. **If you add a field that can be wrong,
-the chip and `aria-invalid` are one thing** — paint one without the other and
-the field looks wrong to the person reading it and reports perfectly valid to
-everything else.
-
-`node` is not installed on this machine, so `components/test-elements.mjs` and
-the design system's `smoke-measure.py` cannot run here. `verify-tokens.py`
-needs `coloraide`, also absent. The seat contrast figures in `app-tokens.css`
-were therefore computed with the WCAG 2.1 formula directly rather than by that
-tool; the numbers are in the file and are reproducible from it.
-
-## Vendored copies
-
-`tokens/`, `components/`, `fonts/` and `icons/` are copies of the design system
-taken from `../livetools-design-system` on 2026-07-31, along with
-`conformance.py` and `lt_dom_audit.py`. Do not edit them here. Changes belong in
-the design-system repo, and upgrading this app is a deliberate re-copy, never an
-ambient change: an app that shipped against one token set must not have its
-colours reflow because that repo moved on.
+`src/data/horn.ts` was transcribed from the catalogue and reviewed against
+commit `f8190eb`; the values are byte-exact from that transcription, only
+re-typed. Do not tidy, round or re-serialise a value: the `"-"` and `"C/D"`
+sentinels, the string dimensions and the page numbers are all load-bearing. A
+correction to the catalogue is a deliberate edit with the catalogue open, never
+a reformat.
 
 ## THE OPEN DECISION: the seat colour palette
 
-**This is the one place the app knowingly sits outside the system, and it needs
-somebody's decision, not an edit.** The full record with the measured ratios is
-the header comment in `app-tokens.css`; the short version:
+The seventeen seat colours are a **domain palette** — a "what something is"
+taxonomy (ISO 513's third job for colour), not a status — and they knowingly sit
+outside the certified system, pending Scott Moyse's sign-off. The full record,
+with the measured contrast ratios, is the header comment in `src/app-tokens.css`.
+The short version: the hues descend from Material Design steps chosen by whoever
+first drew the UI, not from Horn's printed marking, and they reuse red, green and
+amber, which section 3b of the design tokens rings off for ISO 513 alone. Both
+are decisions, not edits. If Horn does not colour-code seats at all, delete the
+palette — the letter is the signal either way.
 
-The seventeen seat colours are a domain palette — a "what something is"
-taxonomy, ISO 513's third job for colour — and section 3b of `lt-tokens.css`
-says a domain palette is certified upstream by `verify-tokens.py`. These are not
-there yet, for two reasons:
+How the deviation is contained:
 
-1. **The hues are not confirmed against Horn.** They descend from Material
-   Design 700/800 steps chosen by whoever first drew this UI, not from Horn's
-   printed colour marking. Section 3b's premise is that a domain palette's hues
-   are fixed *outside* the system by a trade convention and only the digital
-   values are ours. Nobody has checked whether that premise holds here. **If
-   Horn does not colour-code seats at all, delete the palette** — the seat
-   letter is the signal either way and `.lt-swatch` falls back to a neutral box
-   on its own, so nothing breaks.
-2. **It reuses red, green and amber.** Section 3b's ring fence is explicit that
-   ISO 513's permission for K's red is pinned to ISO 513 "and for nothing else",
-   and that a second palette wanting those hues raises its own decision with its
-   own numbers. This is that second palette. The numbers are written down; the
-   sign-off is Scott Moyse's to give.
+- The colours live only in `src/app-tokens.css`, as `--lt-horn-seat-*` custom
+  properties (the one file the lint lets hold a colour literal). No colour
+  literal exists anywhere else in this app.
+- The React `Swatch` part carries only the certified ISO material groups
+  (P/M/K/N/S/H/W/O), so it **cannot** draw a Horn seat. The seat therefore has
+  its own small part, `Seat` in `src/lib/Seat.tsx`: a boxed letter whose fill
+  and ink come from the `seat-<letter>` classes in `src/app.css`, which read the
+  `--lt-horn-seat-*` tokens. A dual seat ("C/D") is two boxes, never a split
+  fill; a holder with no System 117 seat ("-") is an em dash with the words in
+  `SrOnly`, because a box never ships without a code.
+- A seat also always appears as a letter in text (the table cell, the heading,
+  the spec list), so the colour is never the only signal.
 
-What was done in the meantime, so the deviation is contained:
+When the hues are confirmed and the reuse is signed off, the seventeen pairs
+move upstream into the design tokens under the same names and this block, the
+`Seat` part and the `seat-*` classes retire.
 
-- The palette lives in `app-tokens.css`, the one sanctioned home outside
-  `lt-tokens.css` for an app's brand literals. **No colour literal exists
-  anywhere else in this app** — not in `index.html`, not in `app.css`, not in
-  the JS. `.seat-<letter>` classes in `app.css` hand `--lt-swatch-fill` and
-  `--lt-swatch-ink` to the component and nothing else.
-- The names are `--lt-horn-seat-*`, not `--horn-seat-*`, so promoting them to
-  `lt-tokens.css` is a cut and paste and so `conformance.py`'s token graph
-  catches a typo in a `var()` reference today.
-- Five fills were darkened to clear the 4.80 ink headroom the generator uses for
-  text (F, K, L, M and O; F was at 3.79:1 and failed AA outright). All
-  seventeen now clear it with white ink.
-- Rule 3 holds independently of any of the above: a seat renders **only** as a
-  `.lt-swatch` with its letter inside. There is no colour-only seat dot, no
-  legend key and no bare swatch anywhere, and the letter also appears as text in
-  the heading and the spec list. That matters more than usual at seventeen
-  values — the closest pairs are 21–22 units apart in sRGB and nobody can tell
-  them apart at 22px.
+## The parts and where the list is
 
-## Decisions worth not re-litigating
+Read `node_modules/@livetools/ui/PARTS.md` before writing a screen. It is
+generated from the installed version, so it is never out of step with what is
+installed: every part, its import line, its props, and the one rule an app most
+needs about it. Take part names and props from it and nowhere else, including
+your memory of other design systems or of the older `lt-` classes this app used
+before the migration.
 
-- **The four search modes are `lt-tabs`, not cards.** They were four clickable
-  cards with descriptions. The descriptions moved into each panel as a
-  `.lt-prose` intro, which keeps them on screen while the panel is in use
-  instead of only before it is chosen.
-- **The seat picker is native radios sharing one `name` across three
-  fieldsets.** One radio group to the browser and to a screen reader: arrow keys
-  walk all seventeen and exactly one is ever chosen. Toggle buttons would mean
-  hand-rolling the roving tabindex and the ARIA.
-- **A count is not a badge.** "12 of 12 inserts" is plain secondary text with
-  tabular figures. A badge says how a record is going, and a count is not a
-  state — a `.lt-badge` here would also owe a glyph it has no meaning for.
-- **Geometry is plain words.** The A/B pills were two invented colours doing a
-  job two words do: "Slotting head" and "Traditional" in the table cell.
-- **Nothing floats.** The "hidden by your filters" note and the empty results
-  are conditions that stay true until a control changes, so they are
-  `.lt-alert--info` and `.lt-empty` in the flow. Nothing here is a toast,
-  because there is no action whose receipt would be off screen.
-- **One render, one announcement.** Result renders go through `announce()` from
-  `lt-elements.js` — the live region the system already owns — debounced 500 ms,
-  and silent until the first paint. The visible banners carry no `role`, so
-  nothing is read twice. A screen reader reading a running total per keystroke
-  as somebody types in the bore field is worse than silence.
-- **A dual seat ("C/D") is two swatches, not a split fill.** A gradient would
-  break the swatch's derived boundary edge and there is no half-and-half letter
-  to read off it. A holder with no System 117 seat is an em dash with the words
-  in `.lt-sr-only` — `.lt-swatch` never ships without a code, and a dash is not
-  one.
-- **The catalogue `DATA` line is byte-identical to commit f8190eb.** It was
-  spliced across, not reformatted or re-serialised, so the transcription is
-  still the one that was reviewed. Leave it that way.
+A need that is not in PARTS.md is a part that does not exist in this version.
+Tell the person in plain words what the screen cannot do yet, report the gap
+(see "Reporting a part that is wrong"), and do not build a stand-in from raw
+elements. Never import `@base-ui/react` or `react-aria-components`, types
+included; the lint fails the import.
+
+## The root and the rules in React terms
+
+The root is already set up and is not changed. `src/main.tsx` wraps the whole
+app in exactly one `LivetoolsProvider` and imports `globals.css`, which holds
+three imports in a fixed order:
+
+```css
+@import "@livetools/ui/styles.css";  /* tokens and components together */
+@import "./app-tokens.css";          /* this app's own custom properties */
+@import "./app.css";                 /* this app's own classes, last */
+```
+
+The provider writes density, scheme and theme onto the page. Change them through
+its props, never by writing `data-lt-*` attributes. The rules, in this app's
+terms:
+
+- **Never write a raw value.** No colour, px or pt font size or hand-rolled
+  shadow in a `style` prop, a style object, a class string or `app.css`;
+  everything reads a `--lt-*` token. A value the system lacks is a custom
+  property in `src/app-tokens.css`, the only place a literal is allowed — and a
+  token from another job is not an answer either.
+- **Blue acts, red is identity and danger.** A positive action is a blue
+  `Button`; there is no brand-red variant, and CSS must not fake one.
+- **Colour never carries meaning alone.** `Badge`, `Alert`, `State` and status
+  `Select` items carry an icon and words as well as a colour. A seat is a boxed
+  letter, never a bare colour.
+- **Severity picks the colour, lifetime picks the part.** `Alert` for a
+  condition true now (the seat-match banner, the "hidden by filters" notes, an
+  empty result); `toast()` for a receipt with nothing on screen to show it. This
+  app has no toasts, because every message points at something on the page.
+- **A page is a `Shell` header over a `Panel` main**, and controls go only on
+  the `Panel`.
+- **Lists are data in props** (`items`, `columns`, `rows`), never markup. Never
+  reach into a part with a ref; use only the methods PARTS.md lists.
+- **A number a person types is a `NumberField`.** Dates and times are
+  `DateField`/`TimeField`, files are `FileDrop` — none of which this app needs
+  today.
+
+The lint that enforces this is switched on by `eslint.config.js` and
+`stylelint.config.js` at the root; they are not changed, and no rule is disabled
+locally. A rule that stops you means use a part, or ask upstream for one.
+
+## The checks and hooks
+
+`npm run check` runs the lint, the type check, the build, and a check that only
+one copy of React and of each behaviour library is installed. Run it before
+every push; the publish workflow runs the same check, and a failure there means
+the site does not update.
+
+The hooks in `.claude/settings.json` run the lint on every file you edit and
+again before you stop. Fix every finding before you tell the person anything is
+done; they never see a lint or type error. If `node_modules` is missing, run
+`npm install` yourself — the person never runs a command.
+
+The old Python checks (`conformance.py`, `lt_dom_audit.py`) and the vendored
+`tokens/`, `components/`, `fonts/` and `icons/` are gone: the design system now
+comes from the `@livetools/ui` package and its own JS lint, not from vendored
+copies.
+
+## Publishing
+
+A push to `main` publishes the site through `.github/workflows/pages.yml`:
+install, `npm run check`, build, deploy to GitHub Pages. Pages' source must be
+set to "GitHub Actions" once, by hand, in the repository settings — a one-time
+developer step. A failed check fails the deploy and leaves the site as it was,
+and the workflow opens or updates an issue titled "The site did not update"
+saying which check failed. The base path comes from Pages and is never written
+into the app; the workflow copies the page to `404.html` so a deep link resolves.
+
+## Talking to the person
+
+The person does not read code. Everything you say describes what changed on the
+screen, in their words.
+
+- Never name a file, folder, library, command, component or setting. Say "the
+  seat browser now shows the bore size", never a filename.
+- Never show them a terminal or ask them to run anything. You install, check and
+  push.
+- Never pass on a lint error, a type error or a failed build. Fix it first, or
+  say what is wrong on the screen in a sentence.
+- Never mention React, Vite, Base UI or any other library by name.
+
+Machining and workshop vocabulary is fine; they are experts in it. Software
+vocabulary is not. Ask for a decision as a choice about the screen ("should the
+holders sit under each insert, or in one list?"), not about how it is built.
+
+## Updating the design system
+
+`@livetools/ui` is pinned to an exact version with the lockfile committed.
+Move it only when the person asks, and then: change the exact version in
+`package.json` (no `^` or `~`), run `npm install`, run `npm run check` and fix
+every finding, read the package's `CHANGELOG.md` for every version in between
+and re-read PARTS.md for each part this app uses, then push and tell the person
+what changed on the screen. Do not run `npm audit fix`.
+
+## Reporting a part that is wrong
+
+A part that paints or announces wrong, refuses a legitimate shape, or lacks a
+prop a real screen needs is the design system's defect, not this app's. Do not
+patch around it here. Report it as a consumer report in
+`livetools-dev/livetools-design-system` at
+`docs/consumer-reports/<yyyy-mm-dd>-horn-tool-finder.md`: what the screen needed,
+what the part did, what you expected, and the smallest code that shows it. The
+seat palette is a candidate the day someone signs the hues off: the certified
+`Swatch` part gaining a Horn-seat group would retire this app's `Seat` part.
