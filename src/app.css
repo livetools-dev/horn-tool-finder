@@ -1,0 +1,135 @@
+/* App CSS loads last so its rules win without a specificity fight.
+
+   Every value here reads a --lt-* token (the seat fills come from the
+   --lt-horn-seat-* extensions in app-tokens.css). A raw colour, a px font size
+   or a hand-rolled shadow in this file is a lint failure: if no token fits, the
+   token set is wrong and gets fixed upstream, never worked around here. */
+
+/* The Shell and the Panel carry no padding of their own, so the frame sets it:
+   a 16px gutter on a phone, more from a tablet up. */
+.app-band {
+  padding: var(--lt-space-4) var(--lt-space-5) 0;
+}
+
+.app-main {
+  padding: var(--lt-space-7) var(--lt-space-5);
+}
+
+@media (min-width: 48rem) {
+  .app-band,
+  .app-main {
+    padding-inline: var(--lt-space-7);
+  }
+}
+
+/* The app's name beside the logotype in the Shell. */
+.app-title {
+  font-weight: var(--lt-weight-semibold);
+  letter-spacing: 0.01em;
+}
+
+/* -----------------------------------------------------------------------------
+   SEAT BOX
+   A seat is a taxonomy code — "what this is", not a status — so it draws as a
+   small box with its letter inside, never as a bare colour and never as a
+   status badge. The fill and its ink come from --lt-horn-seat-* in
+   app-tokens.css; no colour literal appears in this file. The box reinstates
+   its own boundary with an inset edge mixed toward the page ink, so it clears
+   the 3:1 graphical floor on every surface without a per-colour edge token.
+   A seat we have no class for keeps the neutral surface and still draws a box.
+   -------------------------------------------------------------------------- */
+
+.seat {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: var(--lt-space-6);
+  block-size: var(--lt-space-6);
+  padding-inline: var(--lt-space-1);
+  border-radius: var(--lt-radius-sm);
+  background: var(--lt-surface-sunken);
+  color: var(--lt-text-primary);
+  border: var(--lt-border-width-thin) solid color-mix(in srgb, var(--lt-text-primary) 28%, transparent);
+  font-family: var(--lt-font-mono);
+  font-feature-settings: var(--lt-font-feature-mono);
+  font-weight: var(--lt-weight-bold);
+  font-size: var(--lt-text-sm);
+  line-height: 1;
+}
+
+.seat-a { background: var(--lt-horn-seat-a); color: var(--lt-horn-seat-a-on); }
+.seat-b { background: var(--lt-horn-seat-b); color: var(--lt-horn-seat-b-on); }
+.seat-c { background: var(--lt-horn-seat-c); color: var(--lt-horn-seat-c-on); }
+.seat-d { background: var(--lt-horn-seat-d); color: var(--lt-horn-seat-d-on); }
+.seat-e { background: var(--lt-horn-seat-e); color: var(--lt-horn-seat-e-on); }
+.seat-f { background: var(--lt-horn-seat-f); color: var(--lt-horn-seat-f-on); }
+.seat-g { background: var(--lt-horn-seat-g); color: var(--lt-horn-seat-g-on); }
+.seat-h { background: var(--lt-horn-seat-h); color: var(--lt-horn-seat-h-on); }
+.seat-i { background: var(--lt-horn-seat-i); color: var(--lt-horn-seat-i-on); }
+.seat-k { background: var(--lt-horn-seat-k); color: var(--lt-horn-seat-k-on); }
+.seat-l { background: var(--lt-horn-seat-l); color: var(--lt-horn-seat-l-on); }
+.seat-m { background: var(--lt-horn-seat-m); color: var(--lt-horn-seat-m-on); }
+.seat-n { background: var(--lt-horn-seat-n); color: var(--lt-horn-seat-n-on); }
+.seat-o { background: var(--lt-horn-seat-o); color: var(--lt-horn-seat-o-on); }
+.seat-p { background: var(--lt-horn-seat-p); color: var(--lt-horn-seat-p-on); }
+.seat-q { background: var(--lt-horn-seat-q); color: var(--lt-horn-seat-q-on); }
+.seat-r { background: var(--lt-horn-seat-r); color: var(--lt-horn-seat-r-on); }
+
+/* A dual seat ("C/D") is two boxes side by side, never a split fill: a gradient
+   would break the boundary edge, and there is no half-and-half letter to read
+   off it. */
+.seat-pair {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lt-space-1);
+}
+
+/* A holder with no System 117 seat (the System 356 coupling). Not a box: an em
+   dash is not a taxonomy code. The words ride along in SrOnly. */
+.seat-nil {
+  color: var(--lt-text-secondary);
+}
+
+/* -----------------------------------------------------------------------------
+   RESULT SECTIONS
+   -------------------------------------------------------------------------- */
+
+/* A heading with the thing's seat box beside it, and a plain secondary count.
+   A count is not a status, so it is not a badge: secondary text with tabular
+   figures, beside the heading it counts. */
+.app-section-head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--lt-space-2) var(--lt-space-3);
+}
+.app-section-head h2,
+.app-section-head h3 {
+  font-size: var(--lt-text-lg);
+  line-height: var(--lt-leading-lg);
+  font-weight: var(--lt-weight-semibold);
+}
+.app-count {
+  color: var(--lt-text-secondary);
+  font-size: var(--lt-text-sm);
+  font-feature-settings: var(--lt-font-feature-numeric);
+  font-variant-numeric: tabular-nums slashed-zero;
+}
+.app-sub {
+  flex-basis: 100%;
+  color: var(--lt-text-secondary);
+  font-size: var(--lt-text-sm);
+  line-height: var(--lt-leading-sm);
+}
+
+/* The seat-picker options: the seat box and its width range on one line. */
+.app-seat-opt {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lt-space-2);
+}
+.app-seat-range {
+  color: var(--lt-text-secondary);
+  font-feature-settings: var(--lt-font-feature-numeric);
+  font-variant-numeric: tabular-nums slashed-zero;
+}

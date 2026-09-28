@@ -1,0 +1,122 @@
+/* =============================================================================
+   Horn System 117 broaching selector — app token extensions
+   Loads after lt-tokens.css, before app.css.
+
+   This file is the one sanctioned home outside lt-tokens.css for an app's own
+   literal colours (conformance.py EXEMPT, decided 2026-07-28 with the icon
+   standard). Everything else in this app reads --lt-* or the names below; a
+   literal colour anywhere else is a conformance failure.
+   ============================================================================= */
+
+
+/* -----------------------------------------------------------------------------
+   HORN SYSTEM 117 SEAT COLOURS — A DOMAIN PALETTE, PENDING UPSTREAM CERTIFICATION
+   Added 2026-07-31.
+
+   WHAT THIS IS. Horn's System 117 broaching programme identifies the coupling
+   between an insert and its holder by a seat letter: A, B, C … R. An insert and
+   a holder fit if and only if their seat letters match, and that single fact is
+   what this whole application exists to answer. Seventeen values, each one a
+   "what something is" code — a taxonomy, exactly the third job for colour that
+   lt-tokens.css section 3b describes, and NOT a status. A seat is never "going
+   badly"; there is no severity anywhere in this vocabulary. Putting a seat in
+   --lt-danger-* or --lt-warning-* would say a perfectly ordinary keyway insert
+   was a fault, which is the mistake section 3b was written to stop.
+
+   WHY IT IS HERE AND NOT IN lt-tokens.css. Section 3b's contract says a domain
+   palette is certified upstream by verify-tokens.py, and it should be. Two
+   things block that today and both are somebody's decision, not an edit:
+
+     1. THE HUES ARE NOT YET CONFIRMED AGAINST HORN. The values below descend
+        from the ones the first cut of this app shipped with, which are Material
+        Design 700/800 steps — a UI author's picks, not a transcription of
+        Horn's printed colour marking. Section 3b's whole premise is that a
+        domain palette's hues are fixed OUTSIDE this system by a standards body
+        or a trade convention and only the digital values are ours. Until
+        somebody checks these against the Stechdrehen catalogue and Horn's own
+        insert boxes, we do not know whether that premise holds here. If Horn
+        does not colour-code seats at all, this palette should be DELETED and
+        the seats left as neutral .lt-swatch boxes — the letter alone is the
+        signal either way, so nothing breaks if it goes.
+     2. IT REUSES RED, GREEN AND AMBER. Seats F and O are orange-red, B and L
+        are green, M is amber. Section 3b's ring fence is explicit that ISO
+        513's permission for K's red is pinned to ISO 513 "AND FOR NOTHING
+        ELSE", and that a second palette wanting red, green or amber raises its
+        own decision with its own numbers. This is that second palette. The
+        numbers are below; the decision is not mine to record.
+
+   So this is a deliberate, documented deviation with a known exit: when the
+   hues are confirmed and the reuse is signed off, these seventeen pairs move to
+   lt-tokens.css section 3b under these same names and this block is deleted.
+   The names are --lt-horn-seat-* rather than --horn-seat-* precisely so that
+   move is a cut and paste, and so conformance.py's token graph catches a typo
+   in a var() reference today.
+
+   RULE 3 IS SATISFIED HERE, INDEPENDENTLY OF ANY OF THAT. A seat renders only
+   ever as a .lt-swatch with its letter inside it. There is no colour-only seat
+   dot, no legend key and no bare swatch anywhere in this app, and the seat
+   letter appears in the table cell, the section heading and the spec list as
+   text as well. That matters more than usual at seventeen values: the closest
+   pairs below are 21-22 units apart in sRGB and are simply not tellable apart
+   at 22px by anyone, colour vision deficiency or not.
+
+     F #C94600 vs O #CE4014     21     C #C2185B vs I #AD1457     22
+     D #00695C vs Q #00796B     22     K #007E8A vs Q #00796B     31
+
+   THE MEASUREMENTS. WCAG 2.1 relative luminance, computed rather than
+   estimated, white ink on each fill. All seventeen clear AA 4.5:1 and also
+   clear the 4.80 headroom generate-ramps.py uses for text, so rounding in any
+   checker still passes:
+
+              ink/fill   fill/panel   fill/page          ink/fill  fill/panel  fill/page
+     A  #1565C0   5.75      5.75         5.09     K  #007E8A  4.83     4.83       4.27
+     B  #2E7D32   5.13      5.13         4.54     L  #4D7E2A  4.85     4.85       4.29
+     C  #C2185B   5.87      5.87         5.20     M  #8D6E09  4.81     4.81       4.26
+     D  #00695C   6.61      6.61         5.86     N  #37474F  9.65     9.65       8.54
+     E  #6D4C41   7.61      7.61         6.74     O  #CE4014  4.81     4.81       4.26
+     F  #C94600   4.82      4.82         4.26     P  #5E35B1  8.02     8.02       7.10
+     G  #8E24AA   7.04      7.04         6.23     Q  #00796B  5.32     5.32       4.71
+     H  #283593  10.39     10.39         9.20     R  #455A64  7.24     7.24       6.41
+     I  #AD1457   6.97      6.97         6.17
+
+   FIVE VALUES CHANGED COMING IN, for the same reason ISO 513's S did upstream:
+   they cleared nothing or cleared AA without the headroom. Each was darkened by
+   scaling its linear-light RGB by one factor, which holds the chromaticity
+   exactly rather than drifting the hue the way an HSL tweak does.
+
+     F  #E65100 -> #C94600   was 3.79   now 4.82
+     L  #558B2F -> #4D7E2A   was 4.10   now 4.85
+     M  #9E7C0C -> #8D6E09   was 3.93   now 4.81
+     O  #D84315 -> #CE4014   was 4.44   now 4.81
+     K  #00838F -> #007E8A   was 4.52   now 4.83   (cleared AA, missed headroom)
+
+   FILL VS SURFACE is not the ratio that matters and is recorded above only for
+   completeness. .lt-swatch reinstates its own boundary with an inset edge mixed
+   from the fill toward --lt-text-primary at the certified --lt-swatch-edge-mix,
+   so every one of these clears the 3:1 graphical floor on every surface in both
+   schemes without a per-colour edge token. Do not retune that here.
+
+   FILL + INK, NOTHING ELSE, per contract rule 1. No surfaces, no borders, no
+   text tokens and no ramps. A seat colours a code box and does no other job in
+   this app: it is not a row background, not a link colour and not a border.
+   -------------------------------------------------------------------------- */
+
+:root {
+  --lt-horn-seat-a: #1565C0;  --lt-horn-seat-a-on: var(--lt-white);
+  --lt-horn-seat-b: #2E7D32;  --lt-horn-seat-b-on: var(--lt-white);
+  --lt-horn-seat-c: #C2185B;  --lt-horn-seat-c-on: var(--lt-white);
+  --lt-horn-seat-d: #00695C;  --lt-horn-seat-d-on: var(--lt-white);
+  --lt-horn-seat-e: #6D4C41;  --lt-horn-seat-e-on: var(--lt-white);
+  --lt-horn-seat-f: #C94600;  --lt-horn-seat-f-on: var(--lt-white);
+  --lt-horn-seat-g: #8E24AA;  --lt-horn-seat-g-on: var(--lt-white);
+  --lt-horn-seat-h: #283593;  --lt-horn-seat-h-on: var(--lt-white);
+  --lt-horn-seat-i: #AD1457;  --lt-horn-seat-i-on: var(--lt-white);
+  --lt-horn-seat-k: #007E8A;  --lt-horn-seat-k-on: var(--lt-white);
+  --lt-horn-seat-l: #4D7E2A;  --lt-horn-seat-l-on: var(--lt-white);
+  --lt-horn-seat-m: #8D6E09;  --lt-horn-seat-m-on: var(--lt-white);
+  --lt-horn-seat-n: #37474F;  --lt-horn-seat-n-on: var(--lt-white);
+  --lt-horn-seat-o: #CE4014;  --lt-horn-seat-o-on: var(--lt-white);
+  --lt-horn-seat-p: #5E35B1;  --lt-horn-seat-p-on: var(--lt-white);
+  --lt-horn-seat-q: #00796B;  --lt-horn-seat-q-on: var(--lt-white);
+  --lt-horn-seat-r: #455A64;  --lt-horn-seat-r-on: var(--lt-white);
+}
