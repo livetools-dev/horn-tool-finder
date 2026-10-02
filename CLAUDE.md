@@ -7,7 +7,7 @@ and only if their seat letters match — same letter, same coupling code, it fit
 
 Built from the `livetools-app-vite` template: Vite 8, React 19, TypeScript and
 React Router 7, every screen made from the parts in `@livetools/ui` (pinned to
-1.0.0) and from nothing else. The design system's rules are also pinned as a
+1.3.0) and from nothing else. The design system's rules are also pinned as a
 skill in `.claude/skills/livetools-design-system/`; consult it before writing
 or changing any screen or CSS.
 
@@ -60,14 +60,14 @@ palette — the letter is the signal either way.
 
 How the deviation is contained:
 
-- The colours live only in `src/app-tokens.css`, as `--lt-horn-seat-*` custom
+- The colours live only in `src/app-tokens.css`, as `--horn-seat-*` custom
   properties (the one file the lint lets hold a colour literal). No colour
   literal exists anywhere else in this app.
 - The React `Swatch` part carries only the certified ISO material groups
   (P/M/K/N/S/H/W/O), so it **cannot** draw a Horn seat. The seat therefore has
   its own small part, `Seat` in `src/lib/Seat.tsx`: a boxed letter whose fill
   and ink come from the `seat-<letter>` classes in `src/app.css`, which read the
-  `--lt-horn-seat-*` tokens. A dual seat ("C/D") is two boxes, never a split
+  `--horn-seat-*` tokens. A dual seat ("C/D") is two boxes, never a split
   fill; a holder with no System 117 seat ("-") is an em dash with the words in
   `SrOnly`, because a box never ships without a code.
 - A seat also always appears as a letter in text (the table cell, the heading,

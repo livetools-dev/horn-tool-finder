@@ -4,7 +4,7 @@
 
 import { Component, type ErrorInfo, type ReactNode } from "react";
 import { BrowserRouter, Route, Routes } from "react-router";
-import { Alert, Button, Empty, Logotype, Panel, Prose, Row, Shell, Stack } from "@livetools/ui";
+import { Alert, Button, EmptyState, Logotype, Panel, Prose, Row, Shell, Stack } from "@livetools/ui";
 import { Finder } from "./screens/Finder";
 
 /** Where the app is served from: "/" locally, "/<repository>/" on GitHub Pages
@@ -49,14 +49,14 @@ function Frame() {
     <>
       <Shell className="app-band">
         <Row>
-          <Logotype tone="white" />
+          <Logotype className="app-logo" />
           <span className="app-title">Horn System 117</span>
         </Row>
       </Shell>
       <Panel as="main" className="app-main">
         <Routes>
           <Route path="/" element={<Finder />} />
-          <Route path="*" element={<Empty title="Nothing at this address">This tool has one page.</Empty>} />
+          <Route path="*" element={<EmptyState title="Nothing at this address">This tool has one page.</EmptyState>} />
         </Routes>
       </Panel>
     </>

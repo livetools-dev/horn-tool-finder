@@ -9,7 +9,7 @@ import {
   Alert,
   Card,
   Code,
-  Empty,
+  EmptyState,
   Input,
   Link,
   Num,
@@ -18,7 +18,7 @@ import {
   RadioGroup,
   Select,
   Specs,
-  SrOnly,
+  VisuallyHidden,
   Stack,
   Table,
   Tabs,
@@ -75,7 +75,7 @@ function PartLink({ pn, url }: { pn: string; url: string }) {
   return (
     <Link href={url} target="_blank" rel="noopener">
       <Code>{pn}</Code>
-      <SrOnly> (opens on the Horn eShop)</SrOnly>
+      <VisuallyHidden> (opens on the Horn eShop)</VisuallyHidden>
     </Link>
   );
 }
@@ -336,7 +336,7 @@ export function Finder() {
           </div>
         </>
       )}
-      {!insertHit && <Empty title="No insert matches that filter">Clear the filter to see every insert.</Empty>}
+      {!insertHit && <EmptyState title="No insert matches that filter">Clear the filter to see every insert.</EmptyState>}
     </Stack>
   );
 
@@ -408,7 +408,7 @@ export function Finder() {
           </div>
         </>
       )}
-      {!holderHit && <Empty title="No holder matches that filter">Clear the filter to see every holder.</Empty>}
+      {!holderHit && <EmptyState title="No holder matches that filter">Clear the filter to see every holder.</EmptyState>}
     </Stack>
   );
 
