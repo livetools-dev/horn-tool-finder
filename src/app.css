@@ -22,9 +22,12 @@
   }
 }
 
-/* The logotype at the design system's large size, 3rem (the design system gains a named large option in its next version). */
-.app-logo {
-  block-size: var(--lt-space-10);
+/* A grid child will not shrink below its widest contents, so a wide table or a
+   row of tabs held the whole page open at its own width and the page never fit a
+   phone. Letting each child shrink hands the table a box of the real width, so it
+   folds, and the tab row scrolls inside its own box. */
+.app-stack > * {
+  min-inline-size: 0;
 }
 
 /* The app's name beside the logotype in the Shell. */

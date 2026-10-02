@@ -83,6 +83,7 @@ function PartLink({ pn, url }: { pn: string; url: string }) {
 function insertRows(list: readonly Insert[]): readonly TableRow[] {
   return list.map((i) => ({
     id: i.pn,
+    label: i.pn,
     cells: {
       pn: <PartLink pn={i.pn} url={i.url} />,
       width: <Num>{i.w} mm</Num>,
@@ -98,6 +99,7 @@ function insertRows(list: readonly Insert[]): readonly TableRow[] {
 function holderRows(list: readonly Holder[]): readonly TableRow[] {
   return list.map((h) => ({
     id: h.pn,
+    label: h.pn,
     cells: {
       pn: <PartLink pn={h.pn} url={h.url} />,
       mach: h.mach,
@@ -152,7 +154,7 @@ export function Finder() {
   // -- Panel 1: find by width -------------------------------------------------
   const w = widthResult(width, setup, bore);
   const widthPanel = (
-    <Stack>
+    <Stack className="app-stack">
       <Prose>
         <p>Pick the width you need to cut. The inserts that make it appear first, then the holders that take each one.</p>
       </Prose>
@@ -181,6 +183,7 @@ export function Finder() {
         <Table
           label={`Inserts in ${width}`}
           columns={INSERT_COLUMNS}
+          fold={{ summary: "seat" }}
           rows={insertRows(w.inserts)}
           empty={{
             title: `Nothing in ${width} matches your choices`,
@@ -200,6 +203,7 @@ export function Finder() {
           <Table
             label={`Holders for seat ${s.seat}`}
             columns={HOLDER_COLUMNS}
+            fold={{ summary: "seat" }}
             rows={holderRows(s.holders)}
             empty={{
               title: `No seat-${s.seat} holder enters a ${bore} mm bore`,
@@ -215,7 +219,7 @@ export function Finder() {
   // -- Panel 2: browse by seat ------------------------------------------------
   const s = seatResult(seatCode, setup);
   const seatPanel = (
-    <Stack>
+    <Stack className="app-stack">
       <Prose>
         <p>Pick a seat to see everything on it. Every insert and holder here shares one coupling, so any of these inserts fits any of these holders.</p>
       </Prose>
@@ -244,6 +248,7 @@ export function Finder() {
         <Table
           label={`Inserts on seat ${s.letter}`}
           columns={INSERT_COLUMNS}
+          fold={{ summary: "seat" }}
           rows={insertRows(s.inserts)}
           empty={{
             title: `Seat ${s.letter} has no matching inserts`,
@@ -260,6 +265,7 @@ export function Finder() {
         <Table
           label={`Holders on seat ${s.letter}`}
           columns={HOLDER_COLUMNS}
+          fold={{ summary: "seat" }}
           rows={holderRows(s.holders)}
           empty={{ title: `No holders on seat ${s.letter}`, body: "" }}
         />
@@ -278,7 +284,7 @@ export function Finder() {
   const effectiveInsertPn = insertMatches.some((i) => i.pn === insertPn) ? insertPn : insertMatches[0]?.pn ?? null;
   const insertHit = effectiveInsertPn ? findInsert(effectiveInsertPn) : null;
   const insertPanel = (
-    <Stack>
+    <Stack className="app-stack">
       <Prose>
         <p>Find an insert by its order number or spec, and see every holder that takes it.</p>
       </Prose>
@@ -330,6 +336,7 @@ export function Finder() {
             <Table
               label="Holders that fit this insert"
               columns={HOLDER_COLUMNS}
+              fold={{ summary: "seat" }}
               rows={holderRows(insertHit.holders)}
               empty={{ title: "No holder shares this coupling", body: "" }}
             />
@@ -351,7 +358,7 @@ export function Finder() {
   const effectiveHolderPn = holderMatches.some((h) => h.pn === holderPn) ? holderPn : holderMatches[0]?.pn ?? null;
   const holderHit = effectiveHolderPn ? findHolder(effectiveHolderPn) : null;
   const holderPanel = (
-    <Stack>
+    <Stack className="app-stack">
       <Prose>
         <p>Find a holder by its order number or machine, and see every insert that fits it.</p>
       </Prose>
@@ -399,6 +406,7 @@ export function Finder() {
             <Table
               label="Inserts that fit this holder"
               columns={INSERT_COLUMNS}
+              fold={{ summary: "seat" }}
               rows={insertRows(holderHit.inserts)}
               empty={{
                 title: "No System 117 insert shares this coupling",
@@ -413,7 +421,7 @@ export function Finder() {
   );
 
   return (
-    <Stack>
+    <Stack className="app-stack">
       <Prose>
         <h1>Horn System 117 broaching selector</h1>
         <p>Which insert cuts the width you need, and which holders will take it. From the Horn Stechdrehen catalogue, System 117 (p. 750–785).</p>
