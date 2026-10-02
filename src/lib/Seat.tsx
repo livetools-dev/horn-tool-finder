@@ -2,17 +2,17 @@
 // inside, never a bare colour and never a status badge. A dual seat ("C/D") is
 // two boxes; a holder with no System 117 seat ("-") is an em dash with the
 // words in SrOnly, because a box never ships without a code and a dash is not
-// one. The fills come from --lt-horn-seat-* (app-tokens.css) via the seat-<l>
+// one. The fills come from --horn-seat-* (app-tokens.css) via the seat-<l>
 // classes in app.css.
 
-import { SrOnly } from "@livetools/ui";
+import { VisuallyHidden } from "@livetools/ui";
 
 export function Seat({ seat }: { seat: string }) {
   if (seat === "-" || seat === "") {
     return (
       <span className="seat-nil">
         {"—"}
-        <SrOnly> no System 117 seat</SrOnly>
+        <VisuallyHidden> no System 117 seat</VisuallyHidden>
       </span>
     );
   }

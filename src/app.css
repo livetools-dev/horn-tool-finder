@@ -1,14 +1,14 @@
 /* App CSS loads last so its rules win without a specificity fight.
 
    Every value here reads a --lt-* token (the seat fills come from the
-   --lt-horn-seat-* extensions in app-tokens.css). A raw colour, a px font size
+   --horn-seat-* extensions in app-tokens.css). A raw colour, a px font size
    or a hand-rolled shadow in this file is a lint failure: if no token fits, the
    token set is wrong and gets fixed upstream, never worked around here. */
 
 /* The Shell and the Panel carry no padding of their own, so the frame sets it:
-   a 16px gutter on a phone, more from a tablet up. */
+   a gutter on a phone, more from a tablet up. */
 .app-band {
-  padding: var(--lt-space-4) var(--lt-space-5) 0;
+  padding: var(--lt-space-5) var(--lt-space-5);
 }
 
 .app-main {
@@ -22,6 +22,11 @@
   }
 }
 
+/* The logotype at the design system's large size, 3rem (the design system gains a named large option in its next version). */
+.app-logo {
+  block-size: var(--lt-space-10);
+}
+
 /* The app's name beside the logotype in the Shell. */
 .app-title {
   font-weight: var(--lt-weight-semibold);
@@ -32,7 +37,7 @@
    SEAT BOX
    A seat is a taxonomy code — "what this is", not a status — so it draws as a
    small box with its letter inside, never as a bare colour and never as a
-   status badge. The fill and its ink come from --lt-horn-seat-* in
+   status badge. The fill and its ink come from --horn-seat-* in
    app-tokens.css; no colour literal appears in this file. The box reinstates
    its own boundary with an inset edge mixed toward the page ink, so it clears
    the 3:1 graphical floor on every surface without a per-colour edge token.
@@ -47,7 +52,7 @@
   block-size: var(--lt-space-6);
   padding-inline: var(--lt-space-1);
   border-radius: var(--lt-radius-sm);
-  background: var(--lt-surface-sunken);
+  background: var(--lt-surface-subtle);
   color: var(--lt-text-primary);
   border: var(--lt-border-width-thin) solid color-mix(in srgb, var(--lt-text-primary) 28%, transparent);
   font-family: var(--lt-font-mono);
@@ -57,23 +62,23 @@
   line-height: 1;
 }
 
-.seat-a { background: var(--lt-horn-seat-a); color: var(--lt-horn-seat-a-on); }
-.seat-b { background: var(--lt-horn-seat-b); color: var(--lt-horn-seat-b-on); }
-.seat-c { background: var(--lt-horn-seat-c); color: var(--lt-horn-seat-c-on); }
-.seat-d { background: var(--lt-horn-seat-d); color: var(--lt-horn-seat-d-on); }
-.seat-e { background: var(--lt-horn-seat-e); color: var(--lt-horn-seat-e-on); }
-.seat-f { background: var(--lt-horn-seat-f); color: var(--lt-horn-seat-f-on); }
-.seat-g { background: var(--lt-horn-seat-g); color: var(--lt-horn-seat-g-on); }
-.seat-h { background: var(--lt-horn-seat-h); color: var(--lt-horn-seat-h-on); }
-.seat-i { background: var(--lt-horn-seat-i); color: var(--lt-horn-seat-i-on); }
-.seat-k { background: var(--lt-horn-seat-k); color: var(--lt-horn-seat-k-on); }
-.seat-l { background: var(--lt-horn-seat-l); color: var(--lt-horn-seat-l-on); }
-.seat-m { background: var(--lt-horn-seat-m); color: var(--lt-horn-seat-m-on); }
-.seat-n { background: var(--lt-horn-seat-n); color: var(--lt-horn-seat-n-on); }
-.seat-o { background: var(--lt-horn-seat-o); color: var(--lt-horn-seat-o-on); }
-.seat-p { background: var(--lt-horn-seat-p); color: var(--lt-horn-seat-p-on); }
-.seat-q { background: var(--lt-horn-seat-q); color: var(--lt-horn-seat-q-on); }
-.seat-r { background: var(--lt-horn-seat-r); color: var(--lt-horn-seat-r-on); }
+.seat-a { background: var(--horn-seat-a); color: var(--horn-seat-a-on); }
+.seat-b { background: var(--horn-seat-b); color: var(--horn-seat-b-on); }
+.seat-c { background: var(--horn-seat-c); color: var(--horn-seat-c-on); }
+.seat-d { background: var(--horn-seat-d); color: var(--horn-seat-d-on); }
+.seat-e { background: var(--horn-seat-e); color: var(--horn-seat-e-on); }
+.seat-f { background: var(--horn-seat-f); color: var(--horn-seat-f-on); }
+.seat-g { background: var(--horn-seat-g); color: var(--horn-seat-g-on); }
+.seat-h { background: var(--horn-seat-h); color: var(--horn-seat-h-on); }
+.seat-i { background: var(--horn-seat-i); color: var(--horn-seat-i-on); }
+.seat-k { background: var(--horn-seat-k); color: var(--horn-seat-k-on); }
+.seat-l { background: var(--horn-seat-l); color: var(--horn-seat-l-on); }
+.seat-m { background: var(--horn-seat-m); color: var(--horn-seat-m-on); }
+.seat-n { background: var(--horn-seat-n); color: var(--horn-seat-n-on); }
+.seat-o { background: var(--horn-seat-o); color: var(--horn-seat-o-on); }
+.seat-p { background: var(--horn-seat-p); color: var(--horn-seat-p-on); }
+.seat-q { background: var(--horn-seat-q); color: var(--horn-seat-q-on); }
+.seat-r { background: var(--horn-seat-r); color: var(--horn-seat-r-on); }
 
 /* A dual seat ("C/D") is two boxes side by side, never a split fill: a gradient
    would break the boundary edge, and there is no half-and-half letter to read

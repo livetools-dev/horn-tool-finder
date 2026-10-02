@@ -47,10 +47,10 @@
 
    So this is a deliberate, documented deviation with a known exit: when the
    hues are confirmed and the reuse is signed off, these seventeen pairs move to
-   lt-tokens.css section 3b under these same names and this block is deleted.
-   The names are --lt-horn-seat-* rather than --horn-seat-* precisely so that
-   move is a cut and paste, and so conformance.py's token graph catches a typo
-   in a var() reference today.
+   lt-tokens.css section 3b, renamed --lt-horn-seat-* on arrival, and this
+   block is deleted. The names are --horn-seat-* and not --lt-horn-seat-*
+   because the design system's lint (from 1.2.0) rejects any --lt- name it does
+   not define.
 
    RULE 3 IS SATISFIED HERE, INDEPENDENTLY OF ANY OF THAT. A seat renders only
    ever as a .lt-swatch with its letter inside it. There is no colour-only seat
@@ -102,21 +102,21 @@
    -------------------------------------------------------------------------- */
 
 :root {
-  --lt-horn-seat-a: #1565C0;  --lt-horn-seat-a-on: var(--lt-white);
-  --lt-horn-seat-b: #2E7D32;  --lt-horn-seat-b-on: var(--lt-white);
-  --lt-horn-seat-c: #C2185B;  --lt-horn-seat-c-on: var(--lt-white);
-  --lt-horn-seat-d: #00695C;  --lt-horn-seat-d-on: var(--lt-white);
-  --lt-horn-seat-e: #6D4C41;  --lt-horn-seat-e-on: var(--lt-white);
-  --lt-horn-seat-f: #C94600;  --lt-horn-seat-f-on: var(--lt-white);
-  --lt-horn-seat-g: #8E24AA;  --lt-horn-seat-g-on: var(--lt-white);
-  --lt-horn-seat-h: #283593;  --lt-horn-seat-h-on: var(--lt-white);
-  --lt-horn-seat-i: #AD1457;  --lt-horn-seat-i-on: var(--lt-white);
-  --lt-horn-seat-k: #007E8A;  --lt-horn-seat-k-on: var(--lt-white);
-  --lt-horn-seat-l: #4D7E2A;  --lt-horn-seat-l-on: var(--lt-white);
-  --lt-horn-seat-m: #8D6E09;  --lt-horn-seat-m-on: var(--lt-white);
-  --lt-horn-seat-n: #37474F;  --lt-horn-seat-n-on: var(--lt-white);
-  --lt-horn-seat-o: #CE4014;  --lt-horn-seat-o-on: var(--lt-white);
-  --lt-horn-seat-p: #5E35B1;  --lt-horn-seat-p-on: var(--lt-white);
-  --lt-horn-seat-q: #00796B;  --lt-horn-seat-q-on: var(--lt-white);
-  --lt-horn-seat-r: #455A64;  --lt-horn-seat-r-on: var(--lt-white);
+  --horn-seat-a: #1565C0;  --horn-seat-a-on: var(--lt-white);
+  --horn-seat-b: #2E7D32;  --horn-seat-b-on: var(--lt-white);
+  --horn-seat-c: #C2185B;  --horn-seat-c-on: var(--lt-white);
+  --horn-seat-d: #00695C;  --horn-seat-d-on: var(--lt-white);
+  --horn-seat-e: #6D4C41;  --horn-seat-e-on: var(--lt-white);
+  --horn-seat-f: #C94600;  --horn-seat-f-on: var(--lt-white);
+  --horn-seat-g: #8E24AA;  --horn-seat-g-on: var(--lt-white);
+  --horn-seat-h: #283593;  --horn-seat-h-on: var(--lt-white);
+  --horn-seat-i: #AD1457;  --horn-seat-i-on: var(--lt-white);
+  --horn-seat-k: #007E8A;  --horn-seat-k-on: var(--lt-white);
+  --horn-seat-l: #4D7E2A;  --horn-seat-l-on: var(--lt-white);
+  --horn-seat-m: #8D6E09;  --horn-seat-m-on: var(--lt-white);
+  --horn-seat-n: #37474F;  --horn-seat-n-on: var(--lt-white);
+  --horn-seat-o: #CE4014;  --horn-seat-o-on: var(--lt-white);
+  --horn-seat-p: #5E35B1;  --horn-seat-p-on: var(--lt-white);
+  --horn-seat-q: #00796B;  --horn-seat-q-on: var(--lt-white);
+  --horn-seat-r: #455A64;  --horn-seat-r-on: var(--lt-white);
 }
