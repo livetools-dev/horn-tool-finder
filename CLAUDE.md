@@ -7,7 +7,7 @@ and only if their seat letters match — same letter, same coupling code, it fit
 
 Built from the `livetools-app-vite` template: Vite 8, React 19, TypeScript and
 React Router 7, every screen made from the parts in `@livetools/ui` (pinned to
-1.3.0) and from nothing else. The design system's rules are also pinned as a
+1.4.0) and from nothing else. The design system's rules are also pinned as a
 skill in `.claude/skills/livetools-design-system/`; consult it before writing
 or changing any screen or CSS.
 

@@ -47,9 +47,9 @@ class ErrorBoundary extends Component<{ children: ReactNode }, BoundaryState> {
 function Frame() {
   return (
     <>
-      <Shell className="app-band">
+      <Shell className="app-band" logoSize="large">
         <Row>
-          <Logotype className="app-logo" />
+          <Logotype />
           <span className="app-title">Horn System 117</span>
         </Row>
       </Shell>
