@@ -41,7 +41,8 @@ import { Seat } from "../lib/Seat";
 
 const GEOMETRY_ITEMS: readonly RadioItem[] = [
   { value: "both", label: "Both" },
-  { value: "A", label: "Slotting head (A)" },
+  // A no-break space keeps "(A)" with "head" when a phone wraps the button.
+  { value: "A", label: "Slotting head (A)" },
   { value: "B", label: "Traditional (B)" },
 ];
 
