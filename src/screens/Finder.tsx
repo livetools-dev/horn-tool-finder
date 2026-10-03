@@ -154,7 +154,7 @@ export function Finder() {
   // -- Panel 1: find by width -------------------------------------------------
   const w = widthResult(width, setup, bore);
   const widthPanel = (
-    <Stack className="app-stack">
+    <Stack>
       <Prose>
         <p>Pick the width you need to cut. The inserts that make it appear first, then the holders that take each one.</p>
       </Prose>
@@ -219,7 +219,7 @@ export function Finder() {
   // -- Panel 2: browse by seat ------------------------------------------------
   const s = seatResult(seatCode, setup);
   const seatPanel = (
-    <Stack className="app-stack">
+    <Stack>
       <Prose>
         <p>Pick a seat to see everything on it. Every insert and holder here shares one coupling, so any of these inserts fits any of these holders.</p>
       </Prose>
@@ -284,7 +284,7 @@ export function Finder() {
   const effectiveInsertPn = insertMatches.some((i) => i.pn === insertPn) ? insertPn : insertMatches[0]?.pn ?? null;
   const insertHit = effectiveInsertPn ? findInsert(effectiveInsertPn) : null;
   const insertPanel = (
-    <Stack className="app-stack">
+    <Stack>
       <Prose>
         <p>Find an insert by its order number or spec, and see every holder that takes it.</p>
       </Prose>
@@ -358,7 +358,7 @@ export function Finder() {
   const effectiveHolderPn = holderMatches.some((h) => h.pn === holderPn) ? holderPn : holderMatches[0]?.pn ?? null;
   const holderHit = effectiveHolderPn ? findHolder(effectiveHolderPn) : null;
   const holderPanel = (
-    <Stack className="app-stack">
+    <Stack>
       <Prose>
         <p>Find a holder by its order number or machine, and see every insert that fits it.</p>
       </Prose>
@@ -421,7 +421,7 @@ export function Finder() {
   );
 
   return (
-    <Stack className="app-stack">
+    <Stack>
       <Prose>
         <h1>Horn System 117 broaching selector</h1>
         <p>Which insert cuts the width you need, and which holders will take it. From the Horn Stechdrehen catalogue, System 117 (p. 750–785).</p>
